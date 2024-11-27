@@ -4,10 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-google-cloud-functions = "*"
-functions-framework = "*"
-flask = "*"
-markupsafe = "*"
 
 [dev-packages]
 

@@ -1,6 +1,4 @@
-import functions_framework
-
-from markupsafe import escape
+import functions_framework  # pre-installed in Cloud Functions
 
 @functions_framework.http
 def hello(request):
