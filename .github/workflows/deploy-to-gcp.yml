@@ -8,6 +8,10 @@ permissions:
   contents: 'read'
   id-token: 'write'
   issues: 'write'
+env:
+  TF_VAR_project: $GCP_PROJECT
+  TF_VAR_region: $GCP_REGION
+  TF_VAR_zone: $GCP_ZONE
 jobs:
   deploy-gcp:
     runs-on: ubuntu-latest
