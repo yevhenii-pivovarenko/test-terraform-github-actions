@@ -1,0 +1,43 @@
+name: 'Terraform GCP deployment'
+on:
+  push:
+    branches:
+      - dev
+      - main
+permissions:
+  contents: 'read'
+  id-token: 'write'
+  issues: 'write'
+jobs:
+  deploy-gcp:
+    runs-on: ubuntu-latest
+    environment: 'gcp-env'
+    steps:
+      - name: 'checkout repo'
+        uses: 'actions/checkout@v4'
+      - name: 'authenticate into GCP'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CREDS }}'
+          export_environment_variables: true
+      - name: 'basic setup Terraform'
+        uses: 'hashicorp/setup-terraform@v3'
+        with:
+          terraform_version: '1.9.5'
+      - name: 'init'
+        run: |
+          terraform init
+      - name: 'apply'
+        run: |
+          terraform apply
+      - name: 'manual approval for destruction'
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: '${{ github.TOKEN }}'
+          approvers: yevhenii-pivovarenko
+          issue-title: 'Confirm to destroy infrastructure'
+          issue-body: 'Please do when done with testing'
+          exclude-workflow-initiator-as-approver: false
+      - name: 'destroy'
+        run: |
+          terraform destroy
