@@ -33,7 +33,7 @@ jobs:
           terraform init
       - name: 'apply'
         run: |
-          terraform apply
+          terraform apply -auto-approve
       - name: 'manual approval for destruction'
         uses: trstringer/manual-approval@v1
         with:
@@ -44,4 +44,4 @@ jobs:
           exclude-workflow-initiator-as-approver: false
       - name: 'destroy'
         run: |
-          terraform destroy
+          terraform destroy -auto-approve
